@@ -31,9 +31,7 @@ class UsersModel {
 
       const user = (await usersRef.get()).data();
 
-      const userRoom = (await user.room.get()).data();
-
-      return { ...user, room: userRoom.name };
+      return user;
     } catch (error) {
       throw error;
     }
@@ -42,9 +40,16 @@ class UsersModel {
   static async create(data) {
     try {
       const usersRef = firestore.collection("users");
-      const roomRef = firestore.collection("rooms").doc("1");
 
-      usersRef.add({ ...data, roomId: roomRef });
+      usersRef.add(data);
+    } catch (error) {
+      throw error;
+    }
+  }
+
+  static async getDocReference(docId: string) {
+    try {
+      return firestore.collection("rooms").doc(docId); // esto debe ir en el model de rooms
     } catch (error) {
       throw error;
     }

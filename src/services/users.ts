@@ -3,7 +3,9 @@ import Users from "../models/users";
 class UsersService {
   static async create(data) {
     try {
-      return await Users.create(data);
+      const roomRef = await Users.getDocReference("1");
+
+      return await Users.create({ ...data, room: roomRef });
     } catch (error) {
       throw error;
     }
@@ -19,7 +21,10 @@ class UsersService {
 
   static async getOne() {
     try {
-      return await Users.getOne();
+      const user = await Users.getOne();
+      const userRoom = (await user.room.get()).data();
+
+      return { ...user, room: userRoom.name };
     } catch (error) {
       throw error;
     }
