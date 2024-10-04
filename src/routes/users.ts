@@ -4,7 +4,8 @@ import Users from "../controllers/users";
 
 const router = Router();
 
-router.get("/", Users.getAll);
 router.post("/", Users.create);
+router.get("/", Users.getAll);
+router.get("/:id", Users.getOne);
 
 export default router;
