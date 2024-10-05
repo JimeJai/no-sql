@@ -3,9 +3,8 @@ import Users from "../models/users";
 class UsersService {
   static async create(data) {
     try {
-      const roomRef = await Users.getDocReference("1");
-
-      return await Users.create({ ...data, room: roomRef });
+      const user = Users.create(data)
+     
     } catch (error) {
       throw error;
     }
