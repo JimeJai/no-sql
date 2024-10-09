@@ -23,19 +23,34 @@ class UsersModel {
     }
   }
 
-  static async getOne() {
+  static async getOne(prop: string, value) {
     try {
-      const usersRef = firestore
-        .collection("users")
-        .doc("ncqJZwlsSnfFyRhSgWDU");
+      const usersRef = firestore.collection("users");
 
-      const user = (await usersRef.get()).data();
-
-      return user;
+      const snapshot = await usersRef.where(prop, "==", value).get();
+      if (snapshot.empty) {
+        console.log("No matching documents.");
+        throw new Error("No matching documents.");
+      }
+      return snapshot.docs[0].data();
     } catch (error) {
       throw error;
     }
   }
+
+  // static async getOne() { //byId?
+  //   try {
+  //     const usersRef = firestore
+  //       .collection("users")
+  //       .doc("ncqJZwlsSnfFyRhSgWDU");
+
+  //     const user = (await usersRef.get()).data();
+
+  //     return user;
+  //   } catch (error) {
+  //     throw error;
+  //   }
+  // }
 
   static async create(data) {
     try {

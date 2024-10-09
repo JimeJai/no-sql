@@ -4,10 +4,21 @@ import UsersService from "./users";
 class AuthService {
   static async register(data) {
     try {
-      const user = UsersService.create(data)
-            
-      //const roomRef = await Auth.getDocReference("1");
-      //return await Auth.register({ ...data, room: roomRef });
+      const { email } = data;
+      let exist: boolean;
+      try {
+        await UsersService.getByEmail(email); //--esto devuelve un usuario..?
+        exist = true;
+
+        //se queda aca si encontro un usuario
+      } catch (error) {
+        exist = false;
+        //entra aca si no encontro ese usuario
+      }
+      if (exist) {
+        throw new Error("El usuario ya esta registrado");
+      }
+      const user = await UsersService.create(data); //chequear q no exista el email,
     } catch (error) {
       throw error;
     }
@@ -15,7 +26,7 @@ class AuthService {
 
   static async login() {
     try {
-      return await Auth.login();
+      //   return await Auth.login();
     } catch (error) {
       throw error;
     }
@@ -23,10 +34,7 @@ class AuthService {
 
   static async logout() {
     try {
-      const user = await Auth.logout();
-      const userRoom = (await user.room.get()).data();
-
-      return { ...user, room: userRoom.name };
+      // const user = await Auth.logout();
     } catch (error) {
       throw error;
     }

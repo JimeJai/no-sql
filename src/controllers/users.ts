@@ -13,9 +13,8 @@ class UsersController {
 
   static async getOne(req, res, next) {
     try {
-      const user = await Users.getOne();
-
-      res.status(200).json({ data: user });
+      //const user = await Users.getOne();
+      //res.status(200).json({ data: user });
     } catch (error) {
       next(error);
     }

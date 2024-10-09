@@ -3,8 +3,7 @@ import Users from "../models/users";
 class UsersService {
   static async create(data) {
     try {
-      const user = Users.create(data)
-     
+      const user = Users.create(data);
     } catch (error) {
       throw error;
     }
@@ -18,12 +17,11 @@ class UsersService {
     }
   }
 
-  static async getOne() {
+  static async getByEmail(email) {
     try {
-      const user = await Users.getOne();
-      const userRoom = (await user.room.get()).data();
+      const user = await Users.getOne("email", email);
 
-      return { ...user, room: userRoom.name };
+      return user;
     } catch (error) {
       throw error;
     }
